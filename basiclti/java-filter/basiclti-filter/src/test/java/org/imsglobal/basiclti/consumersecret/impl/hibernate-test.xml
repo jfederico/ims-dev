@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <bean
+    class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="properties">
+      <props>
+        <prop key="hibernate.hbm2ddl.auto">update</prop>
+        <prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop>
+        <prop key="jdbc.url">jdbc:derby:db-basiclti-filter-test;create=true</prop>
+        <prop key="jdbc.driverClassName">org.apache.derby.jdbc.EmbeddedDriver</prop>
+        <prop key="jdbc.username"></prop>
+        <prop key="jdbc.password"></prop>
+      </props>
+    </property>
+  </bean>
+</beans>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wl:webLink xmlns:wl="http://www.imsglobal.org/xsd/imswl_v1p0">
+	<title>Wikipedia - Psychology</title>
+	<url href="http://en.wikipedia.org/wiki/Psychology" target="_self" windowFeatures="width=100, height=100"/>
+</wl:webLink>

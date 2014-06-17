@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/application.xml</param-value>
+  </context-param>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>admin</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>admin</servlet-name>
+    <url-pattern>*.html</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>admin</servlet-name>
+    <url-pattern>*.json</url-pattern>
+  </servlet-mapping>
+  <filter>
+    <filter-name>oauth</filter-name>
+    <filter-class>org.imsglobal.basiclti.provider.servlet.filter.BasicLTISecurityFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>oauth</filter-name>
+    <url-pattern>/test.jsp</url-pattern>
+  </filter-mapping>
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+  <login-config>
+    <auth-method>BASIC</auth-method>
+    <realm-name>default</realm-name>
+  </login-config>
+  <security-constraint>
+    <display-name>Restricted to Manager</display-name>
+    <web-resource-collection>
+      <web-resource-name>Restricted to Manager - All methods</web-resource-name>
+      <url-pattern>*.html</url-pattern>
+      <url-pattern>*.json</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>manager</role-name>
+    </auth-constraint>
+    <user-data-constraint>
+      <transport-guarantee>NONE</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+  <security-role>
+    <role-name>manager</role-name>
+  </security-role>
+</web-app>

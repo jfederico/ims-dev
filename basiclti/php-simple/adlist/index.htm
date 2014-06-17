@@ -1,0 +1,185 @@
+<html>
+<head>
+<title>Writing a Basic LTI Tool Provider</title>
+</head>
+<body style="font-family: sans-serif">
+<h1>Writing a Basic LTI Tool Provider</h1>
+<p>
+This program is a demonstration of a simple functioning Basic LTI Tool Provider.
+<h2>Setup</h2>
+<p>
+There are several steps for setup.
+<ul>
+<li>Create a MySql database and an account for the database - in this example I use <b>ads</b>
+<pre>
+create database ads;
+grant all on ads.* to adsuser@'localhost' identified by 'adspassword';
+grant all on ads.* to adsuser@'127.0.0.1' identified by 'adspassword';
+</pre>
+<li>Create two tables in the database using the commands in <b>setup.sql</b>
+<li>Copy the file <b>db-template.php</b> to <b>db.php</b> and set the database name and 
+account information for your database connection.
+<li>Navigate to <a href="admin.php">admin.php</a> - it should complain about the 
+lack of a <b>admin account</b> and allow you to create one:
+<center>
+<img src="images/01-admin.png">
+</center>
+Make sure to remember the secret as it will insist that you immediately log in with the secret.
+<li>Then add a new consumer, perhaps with a key of "12345" and a secret of "secret"
+<p><center>
+<img src="images/02-secrets.png">
+</center></p>
+</ul>
+You are now set up, lets run the tool.
+<h2>Running the Tool</h2>
+<p>
+To run the tool, we must use the fake IMS Basic LTI Consumer (i.e. the fake LMS).
+<ul>
+<li>Navigate to the <a href="../lms.php">lms.php</a> code.
+<li>Change the URL to point to the <a href="ads.php" target="_new">ads.php</a> application 
+and set the key and secret as you entered in the admin screen above.  Remember that the 
+<b>ads.php</b> application is in the folder <b>adlist</b> (i.e. one folder below <b>lms.php</b>).
+<li>Press <b>Submit</b> and then <b>Launch Endpoint</b>
+<p><center>
+<img src="images/03-lms.png">
+</center></p>
+<li>At this point you should be in the Ad program:
+<p><center>
+<img src="images/04-ads.png">
+</center></p>
+</ul>
+<h2>The Program Structure</h2>
+<p>
+The basic flow of Basic LTI is that the LMS launches the tool with a number of POST parameters
+that are signed OAuth (<a href="http://www.oauth.net/" target="_new">www.oauth.net</a>). 
+Here is some sample parameters:
+<pre>
+auth_version = 1.0
+oauth_nonce = 6e92873834fb08b403971ddebab49e72
+oauth_timestamp = 1267007863
+oauth_consumer_key = 12345
+resource_link_id = 120988f929-274612
+resource_link_title = Weekly Blog
+user_id = 292832126
+roles = Instructor
+lis_person_name_full = Jane Q. Public
+lis_person_contact_email_primary = user@school.edu
+context_id = 456434513
+context_label = SI182
+oauth_signature = pY6Fsej3ak+nr35FWySmmwIfazs=
+</pre>
+<p>
+If you look at the code in <b>ads.php</b> you can see the bit that intercepts this data 
+and provisions the session and a variable called <b>$context</b>.
+<pre>
+require_once '../ims-blti/blti.php';
+require_once("db.php");
+$context = new BLTI(array('table' => 'blti_keys'));
+if ( $context->complete ) exit();
+if ( ! $context->valid ) {
+    print "Could not establish context: ".$context->message."\n";
+    exit();
+}
+</pre>
+In this code, we import the Basic LTI code, set up the database connection, and establish
+the context.  If you look at <b>BLTI</b>, it checks to see if this is a launch message by
+looking at the post parameters - if it is a launch, BLTI verifies the secret and sets up 
+the context and stores the context in the PHP session.  If the message is a 
+normal (non-launch) message the context is restored from the session.
+<p>
+The <b>context</b> contains the information from the launch that can be used to identify
+the currently "logged-in" user and course so your application can support more than one
+school, course, and user as follows:
+<ul>
+<li><b>getCourseKey() = 12345:456434513</b><br/>
+This is what you should use as the unique/primary key for this particular course. 
+It is constructed by concatenating the <b>oauth_consumer_key</b> with the <b>context_id</b>.
+
+<li><b>$context->getCourseName() = SI182</b><br/>
+This is a user-viewable title for the current Course.
+
+<li><b>$context->getUserKey() = 12345:292832126</b><br/>
+This is what you should use as the unique/primary key for this particular user. 
+It is constructed by concatenating the <b>oauth_consumer_key</b> with the <b>user_id</b>.
+
+<li><b>$context->isInstructor() = true/false</b><br/>
+This indicates whether the current user is a powerful user or a normal user.
+
+<li><b>$context->getUserEmail() = user@school.edu</b><br/>
+<b>$context->getUserShortName() = user@school.edu</b><br/>
+<b>$context->getUserName() = Jane Q. Public</b><br/>
+These are the user-viewable bits for the current logged in user.  
+<b>Note:</b> Do not assume that
+the E-Mail address is unique - do not trust the E-mail address as any primary key.
+</ul>
+
+<h2>Data Base Structure</h2>
+<p>
+This is some sample data from the <b>blti_keys</b> table:
+<pre>
+mysql> select id, oauth_consumer_key, secret, name from blti_keys;
++----+--------------------+--------+---------------+
+| id | oauth_consumer_key | secret | name          |
++----+--------------------+--------+---------------+
+| 32 | 12345              | secret | A Testing Key |
+| 31 | admin              | secret | Adminitrator  |
++----+--------------------+--------+---------------+
+</pre>
+And here is sample data from the <b>ads</b> table:
+<pre>
+mysql> select id, course_key,user_key,title from ads;
++----+----------------------------+----------------------------+-----------------------+
+| id | course_key                 | user_key                   | title                 |
++----+----------------------------+----------------------------+-----------------------+
+|  6 | 12345:456434513            | 12345:292832126            | A Totally Sweet Title |
+|  7 | 12345:456434513            | 12345:292832126            | Another Awesome Title |
+|  8 | lmsng.school.edu:456434513 | lmsng.school.edu:292832126 | A TITLE               |
++----+----------------------------+----------------------------+-----------------------+
+</pre>
+You will notice that in this simeple example, I have not normalized things like the 
+users and course information.  You will want to do a better job of modelling this
+information and using JOINs to reconstruct this information.
+<h2>Authorization Strategy</h2>
+<p>
+A key to any multi-tenancy application is to show the correct data for the 
+correct user/course/role combination.  You can use a combination of the
+course_key, user_key, and whether the user is an instructor to create a 
+simple Authorization mechanism using only SQL.
+<p>
+For example when the application is about to edit an advertisement using the 
+following URL:
+<pre>
+http://localhost/~csev/php-simple/adlist/ads.php?action=edit&id=7
+</pre>
+It retrieves the old data using the following query is you are an instructor:
+<pre>
+SELECT * FROM ads WHERE id='7' AND course_key='12345:456434513
+</pre>
+And if you are a Learner (i.e. not an Instructor) the query is
+<pre>
+SELECT * FROM ads WHERE id='7' AND course_key='12345:456434513 and user_key = '12345:292832126'
+</pre>
+Using this technique, instructors can edit any ad, while students can only edit ads that belong
+to them.
+<p>
+If you look at the code that lists the ads, the following code decides if the <b>Edit</b>
+button is to be shown:
+<pre>
+&lt;php
+if ( $context-&gt;isInstructor() || $row['user_key'] == $context-&gt;getUserKey() ) {
+?&gt;
+     &lt;a title="Edit" href="&lt;self?&gt;?action=edit&id=&lt;row[id]?&gt;"&gt;edit&lt;a&gt;
+     &lt;a title="Delete" href="&lt;self?&gt;?action=delete&id=&lt;row[id]?&gt;"&gt;delete&lt;a&gt;
+&lt;php
+}
+?&gt;
+</pre>
+The <b>Edit</b> button is always displayed if you are the instructor or if you are a student
+and the ad belongs to you.
+
+<h2>Needed Improvements</h2>
+<ul>
+<li>Make a separate table for course_key and user_key and normalize 
+these fields as course_id and user_id in the ads table and alter 
+the SQL to use JOIN appropriately.</li>
+</ul>

@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.imsglobal.cc</groupId>
+  <artifactId>CCParser</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0</version>
+  <name>CCParser</name>
+  <url>http://www.imsglobal.org/cc</url>
+  <developers>
+    <developer>
+      <name>Phil Nicholls</name>
+      <organization>Psydev Ltd</organization>
+      <email>pjn@psydev.com</email>
+    </developer>
+  </developers>
+  <dependencies>
+    <dependency>
+      <groupId>org.jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <version>1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>jaxen</groupId>
+      <artifactId>jaxen</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+	  <groupId>org.jmock</groupId>
+	  <artifactId>jmock-junit3</artifactId>
+	  <version>2.5.1</version>
+	  <scope>test</scope>	
+	</dependency>
+	<dependency>
+	  <groupId>org.jmock</groupId>
+	  <artifactId>jmock-legacy</artifactId>
+	  <version>2.5.1</version>
+	  <scope>test</scope>	
+	</dependency>   
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

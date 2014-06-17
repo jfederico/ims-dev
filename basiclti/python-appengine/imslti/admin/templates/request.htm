@@ -1,0 +1,29 @@
+{% extends "../../../templates/_base.htm" %}
+{% block bodycontent %}
+      <h1>Manage Temporary Keys</h1>
+      {% if msg %}
+       <p>
+       {{ msg }}
+       </p>
+      {% endif %}
+      <p>
+      This allows you to set a key for use with this application.
+      These are memory-only keys and so they can expire at any time.
+      Typically they last for quite a while unless the application 
+      gets busy or Google runs low on memory. 
+      </p>
+      <form method="post" action="{{launch.getUrl}}">
+      {{ launch.getInputTag }}
+      OAuth Consumer Key: <input type="text" name="consumer"/>
+      Secret: <input type="text" name="secret"/> <br>
+      <input type="submit" name="action" value="Set"/> 
+      <input type="submit" name="action" value="Delete"/> 
+      <input type="submit" name="action" value="View"/> 
+      </form>
+      </p>
+      {% if error %}
+       <p>
+       {{ error }}
+       </p>
+      {% endif %}
+{% endblock %}

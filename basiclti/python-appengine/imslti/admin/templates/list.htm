@@ -1,0 +1,28 @@
+{% extends "../../../templates/_base.htm" %}
+{% block bodycontent %}
+      <h1>OAuth Consumer Keys</h1>
+      <p>
+      Note that once there is at least one key 
+      in the store, the demo keys of 
+      <b>lmsng.school.edu/secret</b> and <b>12345/secret</b>
+      stop working.
+      <table>
+          <tr>
+            <th>Key</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>&nbsp;</th>
+          </tr>
+          {% for consumer in consumer_list %}
+          <tr>
+            <td>{{ consumer.consumer }}</td>
+            <td>{{ consumer.name }}</td>
+            <td>{{ consumer.email }}</td>
+            <td><a href="{{handler.request.path}}?deletekey={{consumer.consumer}}">Delete</a></td>
+          </tr>
+          {% endfor %}
+      </table>
+<p>
+<a href="{{handler.request.path}}/new">Add New Consumer</a>
+</p>
+{% endblock %}

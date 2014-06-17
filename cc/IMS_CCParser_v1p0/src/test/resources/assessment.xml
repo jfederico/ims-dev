@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <assessment ident="QDB_1" title="Pretest">
+    <qtimetadata>
+      <qtimetadatafield>
+        <fieldlabel>cc_profile</fieldlabel>
+        <fieldentry>cc.exam.v0p1</fieldentry>
+      </qtimetadatafield>
+      <qtimetadatafield>
+        <fieldlabel>qmd_assessmenttype</fieldlabel>
+        <fieldentry>Examintaion</fieldentry>
+      </qtimetadatafield>
+    </qtimetadata>
+    <section ident="S_1">
+      <item ident="QUE_104045" title="Question 01">
+        <!-- start multiplechoice -->
+        <itemmetadata>
+          <qtimetadata>
+            <qtimetadatafield>
+              <fieldlabel>cc_profile</fieldlabel>
+              <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+            </qtimetadatafield>
+            <qtimetadatafield>
+              <fieldlabel>cc_question_category</fieldlabel>
+              <fieldentry>Chapter 01</fieldentry>
+            </qtimetadatafield>
+          </qtimetadata>
+        </itemmetadata>
+        <presentation>
+          <material>
+            <mattext texttype="text/html">Which of the following best defines psychology?</mattext>
+          </material>
+          <response_lid ident="QUE_104045_RL" rcardinality="Single">
+            <render_choice>
+              <response_label ident="QUE_104045_A1">
+                <material>
+                  <mattext texttype="text/html">the scientific study of behavior and mental processes</mattext>
+                </material>
+              </response_label>
+              <response_label ident="QUE_104045_A2">
+                <material>
+                  <mattext texttype="text/html">the science of mental and emotional disorder</mattext>
+                </material>
+              </response_label>
+            </render_choice>
+          </response_lid>
+        </presentation>
+        <resprocessing>
+          <outcomes>
+			  <decvar minvalue="0" maxvalue="100" varname="SCORE" vartype="Decimal"/>
+          </outcomes>
+          <respcondition continue="Yes">
+            <!-- note: general feedback is provided unconditionally -->
+            <conditionvar>
+              <other/>
+            </conditionvar>
+            <displayfeedback feedbacktype="Response" linkrefid="general_fb" />
+          </respcondition>
+          <respcondition title="Correct">
+            <conditionvar>
+              <varequal respident="QUE_104045_RL">QUE_104045_A1</varequal>
+            </conditionvar>
+            <setvar action="Set" varname="SCORE">100</setvar>
+            <displayfeedback feedbacktype="Response" linkrefid="QUE_104045_A1_fb" />
+            <displayfeedback feedbacktype="Response" linkrefid="correct_fb" />
+          </respcondition>
+        </resprocessing>
+        <itemfeedback ident="QUE_104045_A1_fb">
+          <flow_mat>
+            <material>
+              <mattext texttype="text/html"><![CDATA[Feedback for 1]]></mattext>
+            </material>
+          </flow_mat>
+        </itemfeedback>
+        <itemfeedback ident="QUE_104045_A2_fb">
+          <flow_mat>
+            <material>
+              <mattext texttype="text/html"><![CDATA[Feedback for 2]]></mattext>
+            </material>
+          </flow_mat>
+        </itemfeedback>
+      </item>
+      <item ident="QUE_102010" title="Question 02">
+        <!--start trueorfalse-->
+        <presentation>
+          <material>
+            <mattext texttype="text/html">Sigmund Freud and Carl Jung both belong to the psychoanalytic school of psychology.</mattext>
+          </material>
+          <response_lid ident="response_1" rcardinality="Single">
+            <render_choice>
+              <response_label ident="true">
+                <material>
+                  <mattext texttype="text/html">True</mattext>
+                </material>
+              </response_label>
+              <response_label ident="false">
+                <material>
+                  <mattext texttype="text/html">False</mattext>
+                </material>
+              </response_label>
+            </render_choice>
+          </response_lid>
+        </presentation>
+        <resprocessing>
+          <outcomes>
+			  <decvar minvalue="0" maxvalue="100" varname="SCORE" vartype="Decimal"/>
+          </outcomes>
+          <respcondition continue="Yes">
+            <conditionvar>
+              <other/>
+            </conditionvar>
+            <displayfeedback feedbacktype="Response" linkrefid="general_fb" />
+          </respcondition>
+        </resprocessing>
+        <itemfeedback ident="general_fb">
+          <flow_mat>
+            <material>
+              <mattext texttype="text/html"><![CDATA[general feedback]]></mattext>
+            </material>
+          </flow_mat>
+        </itemfeedback>
+      </item>
+    </section>
+  </assessment>
+</questestinterop>

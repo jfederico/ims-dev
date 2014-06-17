@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest
+	identifier="cctd0001"
+	xmlns="http://www.imsglobal.org/xsd/imscc/imscp_v1p1"
+	xmlns:lomimscc="http://ltsc.ieee.org/xsd/imscc/LOM"
+	xmlns:lom="http://ltsc.ieee.org/xsd/LOM"
+	xmlns:voc="http://ltsc.ieee.org/xsd/LOM/vocab"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cc="http://www.imsglobal.org/xsd/imsccauth_v1p0"
+	xsi:schemaLocation="
+	http://www.imsglobal.org/xsd/imscc/imscp_v1p1    http://www.imsglobal.org/profile/cc/ccv1p0/derived_schema/imscp_v1p2_localised.xsd
+	http://ltsc.ieee.org/xsd/LOM    http://www.imsglobal.org/profile/cc/ccv1p0/derived_schema/domainProfile_2/lomLoose_localised.xsd
+	http://ltsc.ieee.org/xsd/imscc/LOM    http://www.imsglobal.org/profile/cc/ccv1p0/derived_schema/domainProfile_1/lomLoose_localised.xsd
+	http://www.imsglobal.org/xsd/imsccauth_v1p0  http://www.imsglobal.org/profile/cc/ccv1p0/derived_schema/domainProfile_0/imsccauth_v1p0_localised.xsd">
+	<metadata>
+		<schema>IMS Common Cartridge</schema>
+		<schemaversion>1.0.0</schemaversion>
+		<lomimscc:lom>
+			<lomimscc:general>
+				<lomimscc:title>
+					<lomimscc:string language="en-US">Common Cartridge Test Data Set - Validation Cartridge 1</lomimscc:string>
+				</lomimscc:title>
+				<lomimscc:description>
+					<lomimscc:string language="en-US">Sample materials to test a variety of Common Cartridge content types</lomimscc:string>
+				</lomimscc:description>
+				<lomimscc:keyword>
+					<lomimscc:string language="en-US">Sample</lomimscc:string>
+				</lomimscc:keyword>
+			</lomimscc:general>
+		</lomimscc:lom>
+	</metadata>
+	<organizations>
+		<organization identifier="O_1" structure="rooted-hierarchy">
+			<item identifier="I_1">
+				<item identifier="I_00000">
+					<title>Psychology, Research, and You</title>
+					<item identifier="I_00001" identifierref="I_00001_R">
+						<title>Learning Objectives</title>
+					</item>
+					<item identifier="I_00002">
+						<title>Study Guide</title>
+						<item identifier="I_00003" identifierref="I_00003_R">
+							<title>Pretest</title>
+						</item>
+					</item>
+					<item identifier="I_00005" identifierref="I_00005_R">
+						<title>Wikipedia - Psychology</title>
+					</item>
+					<item identifier="I_00006" identifierref="I_00006_R">
+						<title>Psychology of Faces</title>
+					</item>
+				</item>
+			</item>
+		</organization>
+	</organizations>
+	<resources>
+		<resource href="I_00001_R/Learning_Objectives.html" identifier="I_00001_R" type="webcontent">
+			<file href="I_00001_R/Learning_Objectives.html"/>
+		</resource>
+		<resource identifier="I_00003_R" type="imsqti_xmlv1p2/imscc_xmlv1p0/assessment">
+			<file href="assessment.xml"/>
+		</resource>
+		<resource identifier="I_00004_R" type="imsqti_xmlv1p2/imscc_xmlv1p0/question-bank" cc:protected="true">
+			<metadata>
+				<lom xmlns="http://ltsc.ieee.org/xsd/LOM">
+					<educational>
+						<intendedEndUserRole>
+							<voc:vocabulary>
+								<value>
+									Instructor
+								</value>
+							</voc:vocabulary>
+						</intendedEndUserRole>
+					</educational>
+				</lom>
+			</metadata>
+			<file href="question_bank.xml"/>
+		</resource>
+		<resource identifier="I_00005_R" type="imswl_xmlv1p0">
+			<file href="weblink.xml"/>
+		</resource>
+		<resource identifier="I_00006_R" type="imsdt_xmlv1p0">
+			<file href="discussion.xml"/>
+			<dependency identifierref="I_00006_Media"/>
+			<dependency identifierref="I_media_R"/>
+		</resource>
+		<resource identifier="I_00006_Media" type="associatedcontent/imscc_xmlv1p0/learning-application-resource">
+			<file href="I_00006_Media/angry_person.jpg"/>
+		</resource>
+		<resource identifier="I_media_R" type="webcontent">
+			<file href="I_media_R/smiling_dog.jpg"/>
+		</resource>
+	</resources>
+	<cc:authorizations import="true" access="resource">
+      <cc:authorization>
+	    <cc:cartridgeId>76543</cc:cartridgeId>
+	    <cc:webservice>http://ccdemo.pearsoncmg.com/wps/cc_auth/cgi-bin/cc_auth.asmx</cc:webservice>
+	  </cc:authorization>
+	</cc:authorizations>
+</manifest>
+

@@ -1,0 +1,60 @@
+{% extends "_base.htm" %}
+{% block bodycontent %}
+<h1>Welcome to the IMS BLTI Sample Python Application</h1>
+<p>This sample application shows how to quickly build a 
+<a href="http://www.imsglobal.org/developers/BLTI/" target="_new">
+IMS Basic Learning Tools Interoperability</a> application 
+in Python using the 
+<a href="http://www.appenginelearn.com/" target="_new">
+Google App Engine</a> environment.
+</p>
+<p>
+There is an online version of this application at
+<a href="http://lti-gae-python.appspot.com/" target="_new">
+http://lti-gae-python.appspot.com/</a>.
+</p>
+<p>You can use this application as a test end point for LMS/Consumer
+lauches.  If the server is operating in demo mode (empty key store),
+you can use demo keys of "12345" or "lmsng.school.edu" both with a 
+secret of "secret" at the following endpoints:
+<ul>
+<li>Best practice no cookie pattern at
+<a href="/launch" target="_new">/launch</a></li>
+<li>Using a cookie/sesson pattern with nice URLs at
+<a href="/cookie" target="_new">/cookie</a></li>
+<li>The Wisdom of Crowds Application at
+<a href="/wiscrowd" target="_new">/wiscrowd</a></li>
+</ul>
+Is the server is no longer in demo mode because some keys
+have been entered into the Key Store, you need to request a key.
+These keys last until their memory is reused.
+</p>
+<p>
+You can test launch this application at the IMS-provided
+<a href="http://www.imsglobal.org/developers/BLTI/lms.php" target="_new">
+Test Basic LTI Consumer</a>.  You will need to enter a Launch URL, Key and 
+Secret and Recompute Launch Data before launching back to this application.
+</p>
+<p>
+You can view the 
+<a href="/static/BasicLTI-AppEngine.pdf" target="_new">Documentation 
+for this application</a> or documentation on 
+<a href="http://www.appenginelearn.com/" target="_new">Documentation on
+Google App Engine</a>.
+<p>
+You can get the source code for this application at
+<a href="http://code.google.com/p/ims-dev/" target="_new">
+http://code.google.com/p/ims-dev/</a>.  If you download 
+and install the code, you become the admin and can use all the 
+admin features.
+</p>
+<p>
+This software is 
+Copright Apache 2.0, 
+<a href="http://www.imsglobal.org/" target="_new">
+IMS Global Learning Consortium
+</a>
+and was developed by
+<a href="http://www.dr-chuck.com/" target="_new">Dr. Chuck</a>.
+</p>
+{% endblock %}

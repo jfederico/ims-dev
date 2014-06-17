@@ -1,0 +1,111 @@
+<project name="ProviderServlet" basedir="." default="deploy">
+<!--
+This file was created by Mark J. Norton on Jan. 21, 2011.
+All rights are given over to IMS-GLC.
+Problems should be sent to markjnorton@earthlink.net
+
+A bin directory is created as a by-product of the build process.  This directory is used
+to hold the files that will be used to create the WAR file.  The clean task will delete this
+directory prior to a fresh build.  The resulting WAR is created in the top level directory.
+	
+The deploy task copies the WAR to the webapps directory of Tomcat.  Generally, this is where
+Tomcat applications live, though this can be changed in the conf/server.xml file.  This is NOT
+recommended.  Hot deploy to Tomcat is supported, so if you want to tinker with the source files
+while Tomcat is up and running, just run "ant" in the top level directory and Tomcat will pick
+up on the changes.		
+-->
+
+	<!-- ===================== Property Definitions =========================== -->
+	<!--
+	  Each of the following properties are used in the build script.
+	  Values for these properties are set by the first place they are
+	  defined, from the following list:
+
+	  * Definitions on the "ant" command line (ant -Dfoo=bar compile).
+
+	  * Definitions from a "build.properties" file in the top level
+	    source directory of this application.
+
+	  * Definitions from a "build.properties" file in the developer's
+	    home directory.  You must defined catalina.home in build.properties.
+
+	  * Default definitions in this build.xml file.
+	-->
+	<property file="build.properties"/>
+	<property file="${user.home}/build.properties"/>
+
+	<!-- Source and Library JAR locations.  -->
+	<property name="src.dir" value="${basedir}/WEB-INF/classes" />
+	<property name="lib.dir" value="${basedir}/WEB-INF/lib" />
+	<property name="bin.dir" value="${basedir}/bin" />
+	<property name="classes.dir" value="${bin.dir}/classes" />
+
+	<!-- Used to make the WAR.  -->	
+	<property name="war.dir" value="${bin.dir}/war" />
+	<property name="web.dir" value="${basedir}" />
+	<property name="web.inf" value="${basedir}/WEB-INF" />
+
+	<!-- Lcations in Tomcat (catalina).  -->
+	<property name="catalina.common" value="${catalina.home}/common/lib" />
+	<property name="catalina.webapps" value="${catalina.home}/webapps" />
+	
+	<!-- Deployment name.  -->
+	<property name="deploy.name" value="${ant.project.name}" />
+		
+
+	<!-- ==================== Compilation Classpath =========================== -->
+	<path id="compile.classpath">
+		<pathelement location="${basedir}" />
+		<pathelement path="${classes.dir}"/>	
+	    
+	  	<!-- Include dependency JARS.  -->
+	  	<fileset dir="${lib.dir}">
+	  		<include name="*.jar" />
+	  	</fileset>	  	
+	  	<fileset dir="${catalina.common}">
+	  		<include name="*.jar" />
+	  	</fileset>	  	
+	</path>
+
+
+	<!-- ======================== Clean Up Step =============================== -->
+	<!--  Clean up older forms of the code.  -->
+	<target name="clean">
+		<delete dir="${bin.dir}" />
+		<delete file="${catalina.webapps}/${deploy.name}.war" />
+		<delete dir="${catalina.webapps}/${deploy.name}" />
+	</target>
+		
+	<!-- ==================== Compile the Servlet ============================= -->
+	<target name="compile" depends="clean">
+		<mkdir dir="${classes.dir}" />
+		<javac srcdir="${src.dir}"
+			destdir="${classes.dir}"> 
+	        <classpath refid="compile.classpath"/>
+	        <include name="**/*.java"/>
+		</javac>
+	</target>
+	
+
+	<!-- ==================== Create the WAR ================================== -->
+	<target name="war" depends="compile">
+		<delete dir="${basedir}/build" />
+		<mkdir dir="${basedir}/build" />
+		<copy todir="${basedir}/build">
+			<fileset dir="${web.dir}">
+				<include name="*.jsp" />
+			</fileset>
+		</copy>
+		<war destfile="${basedir}/${deploy.name}.war" webxml="${web.inf}/web.xml" basedir="${basedir}/build">
+			<classes dir="${bin.dir}/classes"/>
+		</war>
+	</target>
+
+
+	<!-- ==================== Deploy it to Tomcat =========================== -->
+	<!-- Deploy the application to catalina.home (defined in build.properties).  -->
+	<target name="deploy" depends="war">
+		<copy file="${basedir}/${deploy.name}.war" tofile="${catalina.webapps}/${deploy.name}.war"/>
+	</target>
+
+</project>

@@ -1,0 +1,23 @@
+The sample code for the Provider Servlet was written
+by Chuck Wight of utah.edu and practiezone.org
+and was licensed to IMS to be included in this 
+distributon:
+
+From:       Chuck Wight <chuck.wight at utah.edu>
+Subject:    Re: AppEngine BLTI Demo site operational
+Date:       January 7, 2011 11:00:05 AM EST
+To:         Charles Severance <cseverance at imsglobal.org>
+
+Hi Chuck,
+
+I hereby grant IMS a non-revokable license to the Java code 
+that I sent you on January 2 for running a demo BLTI tool 
+provider on Google AppEngine.  IMS may modify, publish and 
+license the code in any way that it deems appropriate, including 
+changing the copyright to an Apache 2 copyright IMS, or any 
+other copyright.  I give this copy of the code to IMS outright, 
+with no restrictions whatsoever.
+
+Cheers,
+
+Chuck

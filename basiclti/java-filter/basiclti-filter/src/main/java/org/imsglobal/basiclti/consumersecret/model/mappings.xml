@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <bean id="org.imsglobal.basiclti.consumersecret.Mapping" class="java.util.ArrayList">
+    <constructor-arg>
+      <list>
+        <value>org/imsglobal/basiclti/consumersecret/model/OauthConsumerSecret.hbm.xml
+        </value>
+      </list>
+    </constructor-arg>
+  </bean>
+</beans>

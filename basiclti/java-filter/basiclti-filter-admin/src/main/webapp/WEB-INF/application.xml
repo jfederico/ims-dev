@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<context:annotation-config />
+
+	<import resource="classpath*:org/imsglobal/basiclti/consumersecret/impl/hibernate-services.xml" />
+
+	<!-- 
+    	The demo properties are set on Derby, the settings can be overwritten by putting these on the
+    	conf/basiclti_provider.properties
+    	file in your tomcat home.
+	  -->
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop>
+				<prop key="jdbc.url">jdbc:derby:db-basiclti-filter;create=true</prop>
+				<prop key="jdbc.driverClassName">org.apache.derby.jdbc.EmbeddedDriver</prop>
+				<prop key="jdbc.username"></prop>
+				<prop key="jdbc.password"></prop>
+			</props>
+		</property>
+		<property name="localOverride" value="false" />
+		<property name="location" value="file:${catalina.base}/conf/basiclti_filter.properties" />
+		<property name="ignoreResourceNotFound" value="true" />
+	</bean>
+
+</beans>

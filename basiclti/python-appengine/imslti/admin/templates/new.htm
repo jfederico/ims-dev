@@ -1,0 +1,22 @@
+{% extends "../../../templates/_base.htm" %}
+{% block bodycontent %}
+      <h1>New Account Setup</h1>
+      <p>
+      Please enter your information below:
+      </p>
+      <form method="post" action="{{launch.getUrl}}">
+      {{ launch.getInputTag }}
+      OAuth Consumer Key: <input type="text" name="consumer"/> <br/>
+      Secret: <input type="text" name="secret"/> <br>
+      Name: <input type="text" name="name"/> <br/>
+      EMail: <input type="text" name="email"/> <br/>
+      <input type="submit" name="action" value="Create"/> 
+      <input type="submit" name="action" value="Cancel"/>
+      </form>
+      </p>
+      {% if error %}
+       <p>
+       {{ error }}
+       </p>
+      {% endif %}
+{% endblock %}

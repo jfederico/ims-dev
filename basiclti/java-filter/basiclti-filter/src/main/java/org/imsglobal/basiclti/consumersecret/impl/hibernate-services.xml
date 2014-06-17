@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/tx 
+           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+           
+    <!-- 
+     To use a Derby based implementation, please set the database configuration as follows:
+     
+     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop>
+				<prop key="jdbc.url">jdbc:derby:db-basiclti-filter;create=true</prop>
+				<prop key="jdbc.driverClassName">org.apache.derby.jdbc.EmbeddedDriver</prop>
+				<prop key="jdbc.username"></prop>
+				<prop key="jdbc.password"></prop>
+			</props>
+		</property>
+	</bean>
+	
+	A more elaborate example would be to overload the properties by an external property file:
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop>
+				<prop key="jdbc.url">jdbc:derby:db-basiclti-filter;create=true</prop>
+				<prop key="jdbc.driverClassName">org.apache.derby.jdbc.EmbeddedDriver</prop>
+				<prop key="jdbc.username"></prop>
+				<prop key="jdbc.password"></prop>
+			</props>
+		</property>
+		<property name="localOverride" value="false" />
+		<property name="location" value="file:${catalina.base}/conf/basiclti_filter.properties" />
+		<property name="ignoreResourceNotFound" value="true" />
+	</bean>
+     -->
+  <description>
+
+
+  </description>
+  <tx:annotation-driven
+    transaction-manager="org.springframework.transaction.PlatformTransactionManager" />
+  <import
+    resource="classpath*:org/imsglobal/basiclti/consumersecret/model/mappings.xml" />
+  <bean id="org.springframework.transaction.PlatformTransactionManager"
+    class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <property name="sessionFactory"
+      ref="org.springframework.orm.hibernate3.LocalSessionFactoryBean" />
+  </bean>
+
+  <bean
+    id="org.imsglobal.basiclti.consumersecret.api.ConsumerSecretService"
+    class="org.imsglobal.basiclti.consumersecret.impl.HibernateConsumerSecretServiceImpl">
+    <property name="sessionFactory"
+      ref="org.springframework.orm.hibernate3.LocalSessionFactoryBean" />
+  </bean>
+
+  <bean id="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+    class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    <property name="mappingResources"
+      ref="org.imsglobal.basiclti.consumersecret.Mapping" />
+    <property name="hibernateProperties">
+      <props>
+        <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+        <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+      </props>
+    </property>
+    <property name="dataSource" ref="dataSource" />
+  </bean>
+
+  <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+    destroy-method="close">
+    <property name="driverClassName" value="${jdbc.driverClassName}" />
+    <property name="url" value="${jdbc.url}" />
+    <property name="username" value="${jdbc.username}" />
+    <property name="password" value="${jdbc.password}" />
+  </bean>
+</beans>
